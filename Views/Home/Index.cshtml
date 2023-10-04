@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h1 class="display-4">Welcome</h1>
+    <p>This proof-of-concept app demonstrates a server-side web application integrated with an Auth0 protected API.</p>
+    <p>The API has a single resource, "ToDo," and can be seen at
+        <a href="https://mellonapi.azurewebsites.net/swagger/index.html">https://mellonapi.azurewebsites.net/swagger/index.html</a>.
+        It has two scopes: <code>read:todos</code> and <code>write:todos</code>. <code>read:todos</code> is required for
+        GET requests and <code>write:todos</code> is required for POST, PUT, and DELETE requests.
+    <p>This application is a standard .net core MVC app with a ToDos controller and Index, Details, Create, Edit, and
+        Delete actions. The data layer maps those actions to the API endpoints.</p>
+    <p>If you don't already have a user account in Auth0, clicking <b>Log in</b> will create one from Shibboleth. You
+        can assign yourself permissions in Auth0.</p>
+    <p>Against good practices, this application does not do any endpoint authorization or try/catch, so the raw auth errors will return from the API. Without
+        user permissions for the appropriate scopes, the ToDos controller actions will throw errors because the API will
+        return forbidden (403). Not logged in, the API will return unauthorized (401).</p>
+
+    <h2>Test the Auth0 authorization</h2>
+    <ol>
+        <li>If logged in, click <b>Log out</b>.</li>
+        <li>Click <b>ToDos</b>.</li>
+        <li>Confirm an error is thrown: <code>HttpRequestException: Response status code does not indicate success: 401 (Unauthorized).</code></li>
+        <li>Navigate back to the home page.</li>
+        <li>In Auth0, ensure you don't have any scopes assigned as permissions for your user.</li>
+        <li>Click <b>ToDos</b>.</li>
+        <li>Confirm an error is thrown: <code>HttpRequestException: Response status code does not indicate success: 403 (Forbidden).</code></li>
+        <li>Navigate back to the home page.</li>
+        <li>In Auth0, grant your user permission for the <code>read:todos</code> scope.</li>
+        <li>Log out and log back in.</li>
+        <li>Click <b>ToDos</b>.</li>
+        <li>Confirm you are on the ToDo Index view.</li>
+        <li>Click <b>Details</b> for one of the items.</li>
+        <li>Confirm you are on the Details view for that item.</li>
+        <li>Click <b>Edit</b>.</li>
+        <li>Click <b>Save</b>.</li>
+        <li>Confirm an error is thrown: <code>HttpRequestException: Response status code does not indicate success: 403 (Forbidden).</code></li>
+        <li>Navigate back to the ToDos index.</li>
+        <li>Click <b>Create New</b>.</li>
+        <li>Fill out the form and click <b>Create</b>.</li>
+        <li>Confirm an error is thrown: <code>HttpRequestException: Response status code does not indicate success: 403 (Forbidden).</code></li>
+        <li>Navigate back to the ToDos index.</li>
+        <li>Click <b>Delete</b></li>
+        <li>Click <b>Delete</b> again.</li>
+        <li>Confirm an error is thrown: <code>HttpRequestException: Response status code does not indicate success: 403 (Forbidden).</code></li>
+        <li>In Auth0, grant your user permission for the <code>write:todos</code> scope.</li>
+        <li>Log out and log back in.</li>
+        <li>Click <b>ToDos</b>.</li>
+        <li>Click <b>Create New</b>.</li>
+        <li>Fill out the form and click <b>Create</b>.</li>
+        <li>Confirm you are returned to the index view and your new todo is listed.</li>
+        <li>Click <b>Edit</b> for your item.</li>
+        <li>Make a change to your item.</li>
+        <li>Click <b>Save</b>.</li>
+        <li>Confirm you are returned to the index view and your changes are shown.</li>
+        <li>Click <b>Delete</b> for your item.</li>
+        <li>Click <b>Delete</b>.</li>
+        <li>Confirm you are returned to the index view and your item is no longer listed.</li>
+    </ol>
+</div>
+
